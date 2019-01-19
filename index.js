@@ -509,3 +509,5 @@ function notificationtxt(result)
     }
 
     return txt;
+
+}
