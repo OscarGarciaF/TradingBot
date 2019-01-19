@@ -509,9 +509,3 @@ function notificationtxt(result)
     }
 
     return txt;
-
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> a91a79159b6826f32ce64ef65514ffbdaaacabd0
