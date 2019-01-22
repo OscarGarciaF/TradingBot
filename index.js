@@ -421,9 +421,9 @@ client.on('ready', () => {
 
 client.on('message', message => 
 {
-    //console.log(message);
+    console.log(message);
     //message.author.send("here").catch(console.error);
-    if(message.type=="Ping")
+    if(message.content=="Ping")
     {
         message.channel.send("Pong").catch(console.error);
     }
