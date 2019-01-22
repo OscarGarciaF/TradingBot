@@ -8,6 +8,11 @@ const dbt = low(adapter_t);
 const adapter_tele = new FileSync('telekey.json');
 const teledb = low(adapter_tele);
 const bot = new TeleBot(teledb.get('telekey').value());
+const Discord = require('discord.js');
+
+const adapter_di= new FileSync('discordkey.json');
+const discorddb = low(adapter_di);
+const client = new Discord.Client();
 
 // STRINGS
 const ayudatxt="Hola, tengo los siguientes commandos disponibles:\r\n\
@@ -328,7 +333,7 @@ var user_iterator_d=0;
 var order_iterator_d=0;
 
 
-async function loop()
+async function loopt()
 {
     //var start = process.hrtime();
     var data=dbt.get('data['+user_iterator_t+']').value();
@@ -405,8 +410,21 @@ async function loop()
         
 }
 
-setInterval(loop, 333);
+setInterval(loopt, 333);
 
+
+////DISCORD
+
+
+client.on('message', message => 
+{
+    console.log(message);
+    message.channel.send("here");
+});
+client.login(discorddb.get('token').value());
+
+
+////FUNCS
 function chkerr(err)
 {
     var txt;
