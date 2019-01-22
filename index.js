@@ -419,10 +419,15 @@ client.on('ready', () => {
   });
   
 
-client.on('ayuda', message => 
+client.on('message', message => 
 {
     //console.log(message);
-    message.author.send("here").catch(console.error);;
+    //message.author.send("here").catch(console.error);
+    if(message.type=="Ping")
+    {
+        message.channel.send("Pong").catch(console.error);
+    }
+    
 });
 client.login(discorddb.get('token').value());
 
