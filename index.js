@@ -422,7 +422,7 @@ client.on('ready', () => {
 client.on('message', message => 
 {
     //console.log(message);
-    message.author.send("here");
+    message.author.send("here").catch(console.error);;
 });
 client.login(discorddb.get('token').value());
 
