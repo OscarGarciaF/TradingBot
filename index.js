@@ -419,7 +419,7 @@ client.on('ready', () => {
   });
   
 
-client.on('/ayuda', message => 
+client.on('ayuda', message => 
 {
     //console.log(message);
     message.author.send("here").catch(console.error);;
