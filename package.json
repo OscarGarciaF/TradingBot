@@ -15,6 +15,7 @@
     "forever": "^0.15.3",
     "libsodium-wrappers": "^0.7.4",
     "lowdb": "^1.0.0",
+    "node-gyp-build": "^3.8.0",
     "telebot": "git+https://github.com/mullwar/telebot.git",
     "uws": "^99.0.0"
   },
