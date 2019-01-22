@@ -421,8 +421,8 @@ client.on('ready', () => {
 
 client.on('message', message => 
 {
-    console.log(message);
-    message.channel.send("here");
+    //console.log(message);
+    message.author.send("here");
 });
 client.login(discorddb.get('token').value());
 
