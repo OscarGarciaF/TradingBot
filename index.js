@@ -436,27 +436,28 @@ client.on('message', message =>
     else if (command=='explica')
     {
         var txt;
+        console.log(args);
         if(args.length!=1)
         {
             txt=errortxt;
         }
-        else if (args[1]=='registro')
+        else if (args[0]=='registro')
         {
             txt=registrotxt;
         }
-        else if (args[1]=='precio')
+        else if (args[0]=='precio')
         {
             txt=preciotxt;
         }
-        else if (args[1]=='market')
+        else if (args[0]=='market')
         {
             txt=markettxt;
         }
-        else if (args[1]=='limit')
+        else if (args[0]=='limit')
         {
             txt=limittxt;
         }
-        else if (args[1]=='stoplimit')
+        else if (args[0]=='stoplimit')
         {
             txt=stoplimittxt;
         }
