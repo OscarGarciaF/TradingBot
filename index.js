@@ -493,7 +493,7 @@ client.on('message', async function (message)
             var user=message.author.id;
             var public= args[0];
             var private = args[1];
-            var member=dbt.get('data').find({ id: user });
+            var member=dbd.get('data').find({ id: user });
             console.log(member.value());
             console.log(user);
             if (member.value()==undefined)
