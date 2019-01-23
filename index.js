@@ -421,15 +421,23 @@ client.on('ready', () => {
 
 client.on('message', message => 
 {
-    console.log(message);
+    //console.log(message);
     //message.author.send("here").catch(console.error);
-    if(message.content=="Ping")
-    {
-        message.channel.send("Pong").catch(console.error);
-    }
+    var prefix='/';
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    var args = message.content.slice(prefix.length).split(/ +/);
+    var command = args.shift().toLowerCase();
+    console.log("Command: " +command+" args: " +args);
+
+    
+
     
 });
+
+
 client.login(discorddb.get('token').value());
+
+
 
 
 ////FUNCS
