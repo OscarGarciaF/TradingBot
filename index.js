@@ -494,8 +494,8 @@ client.on('message', async function (message)
             var public= args[0];
             var private = args[1];
             var member=dbd.get('data').find({ id: user });
-            console.log(member.value());
-            console.log(user);
+            //console.log(member.value());
+            //console.log(user);
             if (member.value()==undefined)
             {
                 var obj={ id: user, publicKey: public, privateKey: private, orders:[]};
@@ -525,7 +525,7 @@ client.on('message', async function (message)
         {
             var client= Binance();
             var s1=args[0].toUpperCase();
-            var s2=args[0].toUpperCase();
+            var s2=args[1].toUpperCase();
             var dat= {symbol:s1+s2};
             var result;
             try
