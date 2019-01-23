@@ -8,11 +8,14 @@ const dbt = low(adapter_t);
 const adapter_tele = new FileSync('telekey.json');
 const teledb = low(adapter_tele);
 const bot = new TeleBot(teledb.get('telekey').value());
-const Discord = require('discord.js');
 
+
+const Discord = require('discord.js');
 const adapter_di= new FileSync('discordkey.json');
 const discorddb = low(adapter_di);
 const client = new Discord.Client();
+const adapter_d = new FileSync('db_d.json');
+const dbd = low(adapter_d);
 
 // STRINGS
 const ayudatxt="Hola, tengo los siguientes commandos disponibles:\r\n\
@@ -40,6 +43,13 @@ const errortxt="Error llamando comando";
 dbt.defaults({data: [{ 
     id: "",
     chat: "", 
+    publicKey: "", 
+    privateKey: "", 
+    orders:[]
+}]}).write();
+
+dbd.defaults({data: [{ 
+    id: "", 
     publicKey: "", 
     privateKey: "", 
     orders:[]
@@ -436,7 +446,7 @@ client.on('message', message =>
     else if (command=='explica')
     {
         var txt;
-        console.log(args);
+        //console.log(args);
         if(args.length!=1)
         {
             txt=errortxt;
@@ -465,28 +475,91 @@ client.on('message', message =>
         {
             txt=errortxt;
         }    
-        message.channel.send(txt).catch(console.error)
+        message.channel.send(txt).catch(console.error);
     }
+
+
     else if (command=='registro')
     {
-        
+
+        var txt;
+        if (args.length!=2)
+        {
+            txt=errortxt;
+        }
+        else
+        {
+            txt="Registro exitoso";
+            var user=message.author.id;
+            var public= args[0];
+            var private = args[1];
+            var member=dbt.get('data').find({ id: user });
+            if (member.value()==undefined)
+            {
+                var obj={ id: user, publicKey: public, privateKey: private, orders:[]};
+                dbd.get("data").push(obj).write();
+                //console.log(obj);
+            }
+            else
+            {        
+                var obj={publicKey: public, privateKey: private};
+                member.assign(obj).write();
+                //console.log(obj);
+            }   
+        }       
+        message.channel.send(txt).catch(console.error);
     }
+
+
     else if (command=='precio')
     {
-        
+
+        var txt;
+        if (args.length!=2)
+        {
+            txt=errortxt;
+        }
+        else
+        {
+            var client= Binance();
+            var s1=args[0].toUpperCase();
+            var s2=args[0].toUpperCase();
+            var dat= {symbol:s1+s2};
+            var result;
+            try
+            {
+                result= await client.avgPrice(dat);
+                txt= "1 "+ s1+ " cuesta "+ result.price+ " "+ s2;
+                //console.log(result);
+            }
+            catch(err)
+            {
+                //console.log(result);
+                txt=chkerr(err);
+            }
+            message.channel.send(txt).catch(console.error);
+        }
     }
+
+
     else if (command=='market')
     {
         
     }
+
+
     else if (command=='limit')
     {
         
     }
+
+
     else if (command=='stoplimit')
     {
         
-    }    
+    }   
+    
+    
 });
 
 
