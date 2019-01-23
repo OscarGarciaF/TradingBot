@@ -494,6 +494,8 @@ client.on('message', async function (message)
             var public= args[0];
             var private = args[1];
             var member=dbt.get('data').find({ id: user });
+            console.log(member.value());
+            console.log(user);
             if (member.value()==undefined)
             {
                 var obj={ id: user, publicKey: public, privateKey: private, orders:[]};
