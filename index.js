@@ -429,7 +429,7 @@ client.on('ready', () => {
   });
   
 
-client.on('message', message => 
+client.on('message', async function (message) 
 {
     //console.log(message);
     //message.author.send("here").catch(console.error);
