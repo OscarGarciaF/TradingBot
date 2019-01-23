@@ -427,7 +427,7 @@ client.on('message', message =>
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     var args = message.content.slice(prefix.length).split(/ +/);
     var command = args.shift().toLowerCase();
-    console.log("Command: " +command+" args: " +args);
+    //console.log("Command: " +command+" args: " +args);
     if (command=='ayuda')
     {
         message.channel.send(ayudatxt).catch(console.error);
