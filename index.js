@@ -428,10 +428,64 @@ client.on('message', message =>
     var args = message.content.slice(prefix.length).split(/ +/);
     var command = args.shift().toLowerCase();
     console.log("Command: " +command+" args: " +args);
+    if (command=='ayuda')
+    {
+        message.channel.send(ayudatxt).catch(console.error);
 
-    
-
-    
+    }
+    else if (command=='explica')
+    {
+        var txt;
+        if(args.length!=1)
+        {
+            txt=errortxt;
+        }
+        else if (args[1]=='registro')
+        {
+            txt=registrotxt;
+        }
+        else if (args[1]=='precio')
+        {
+            txt=preciotxt;
+        }
+        else if (args[1]=='market')
+        {
+            txt=markettxt;
+        }
+        else if (args[1]=='limit')
+        {
+            txt=limittxt;
+        }
+        else if (args[1]=='stoplimit')
+        {
+            txt=stoplimittxt;
+        }
+        else
+        {
+            txt=errortxt;
+        }    
+        message.channel.send(txt).catch(console.error)
+    }
+    else if (command=='registro')
+    {
+        
+    }
+    else if (command=='precio')
+    {
+        
+    }
+    else if (command=='market')
+    {
+        
+    }
+    else if (command=='limit')
+    {
+        
+    }
+    else if (command=='stoplimit')
+    {
+        
+    }    
 });
 
 
