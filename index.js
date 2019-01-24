@@ -150,11 +150,11 @@ bot.on(/^\/market ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
-    console.log("here");
+   // console.log("here");
     var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3];
     cmdt=dat;
     var txt= confirmtxt("m",props.match[1],props.match[2]+props.match[3]);
-    console.log(cmdt);
+   // console.log(cmdt);
     msg.reply.text(txt);
 });
 
@@ -312,7 +312,7 @@ bot.on('callbackQuery', async function(msg) {
     return bot.answerCallbackQuery(msg.id, {text:txt, showAlert: false});
 });
 
-bot.on(/^([^ ]+)$/, (msg) => function(msg)
+bot.on('text', (msg) => function(msg)
 {
     if (cmdt!=undefined)
     {
