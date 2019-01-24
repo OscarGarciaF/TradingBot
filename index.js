@@ -151,7 +151,7 @@ bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
    // console.log("here");
-    var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3];
+    var dat= "m," +props.match[1].toUpperCase() +","+ props.match[2] +","+props.match[3];
     cmdt=dat;
     var txt= confirmtxt("m",props.match[1],props.match[2]+props.match[3]);
    // console.log(cmdt);
@@ -639,7 +639,7 @@ function chkerr(err)
     }
     else if (err.code==-2010)
     {
-        txt= "Balance insuficiente en su cuenta";
+        txt= "Orden rechazada";
     }
     else
     {
