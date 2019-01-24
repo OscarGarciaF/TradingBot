@@ -55,9 +55,10 @@ dbd.defaults({data: [{
     orders:[]
 }]}).write();
 
+var cmdt=undefined;
 
 //TELEGRAM
-//bot.on('text', (msg) => msg.reply.text(msg.text));
+
 bot.on('/ayuda', (msg) => msg.reply.text(ayudatxt));
 bot.on(/^\/explica$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/explica ([^ ]+)$/,(msg,props) => 
@@ -147,62 +148,36 @@ bot.on(/^\/precio ([^ ]+) ([^ ]+)$/, async function(msg,props)
 bot.on(/^\/market$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
-{   
-    var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3]+"," +props.match[4];
-    var replyMarkup= bot.inlineKeyboard([
-        [
-            bot.inlineButton('Confirmar', {callback:dat}),
-        ], [
-            bot.inlineButton('Cancelar', {callback: 'c'})
-        ]
-    ]);
-    //console.log(msg);
-    // /market [Lado] [Moneda1] [Moneda2] [Cantidad]
-    return bot.sendMessage(msg.from.id,"Confirme su orden",{replyMarkup});
-   
+bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
+{
+    var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3];
+    cmdt=dat;
+    var txt= confirmtxt("m",props.match[1],props.match[2]+props.match[3]);
+    msg.reply.text(txt);
 });
 
 bot.on(/^\/limit$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
-{   
-    var dat= "l," +props.match[1] +","+ props.match[2] +","+props.match[3]+"," +props.match[4]+","+props.match[5];
-    var replyMarkup= bot.inlineKeyboard([
-        [
-            bot.inlineButton('Confirmar', {callback:dat}),
-        ], [
-            bot.inlineButton('Cancelar', {callback: 'c'})
-        ]
-    ]);
-    //console.log(msg);
-    // /limit [Lado] [Moneda1] [Moneda2] [Cantidad] [Precio]
-    return bot.sendMessage(msg.from.id,"Confirme su orden",{replyMarkup});   
+bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => function(msg,props)
+{
+    var dat= "l," +props.match[1] +","+ props.match[2] +","+props.match[3];
+    cmdt=dat;
+    var txt= confirmtxt("l",props.match[1],props.match[2]+props.match[3]);
+    msg.reply.text(txt);
+    
 });
+
 
 bot.on(/^\/stoplimit$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
-{   
-    var dat= "s," +props.match[1] +","+ props.match[2] +","+props.match[3]+"," +props.match[4]+","+props.match[5]+","+props.match[6];
-    var replyMarkup= bot.inlineKeyboard([
-        [
-            bot.inlineButton('Confirmar', {callback:dat}),
-        ], [
-            bot.inlineButton('Cancelar', {callback: 'c'})
-        ]
-    ]);
-    //console.log(msg);
-    // /stoplimit [Lado] [Moneda1] [Moneda2] [Cantidad] [Limit] [Stop]
-    return bot.sendMessage(msg.from.id,"Confirme su orden",{replyMarkup});   
+bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
+{
+    var dat= "s," +props.match[1] +","+ props.match[2] +","+props.match[3];
+    cmdt=dat;
+    var txt= confirmtxt("s",props.match[1],props.match[2]+props.match[3]);
+    msg.reply.text(txt);
 });
 
 
@@ -334,6 +309,67 @@ bot.on('callbackQuery', async function(msg) {
     //console.log("after edit");
     return bot.answerCallbackQuery(msg.id, {text:txt, showAlert: false});
 });
+
+bot.on('text', (msg) => function(msg)
+{
+    if (cmdt!=undefined)
+    {
+        var args =msg.text.split(/ +/);        
+        for (i = 0; i < args.length; i++)
+        { 
+            if(isNaN(args[i]))
+            {
+                return;
+            }
+        }
+        if (args.length>3)
+        {
+            return;
+        }
+        dat= cmdt+",";
+        if(cmdt[0]=='m'&&args.length==1)
+        {
+            dat= dat+args[0];
+        }
+        else if(cmdt[0]=='l'&&args.length==2)
+        {
+            dat= dat+args[0]+','+args[1];
+        }
+        else if(cmdt[0]=='s'&&args.length==3)
+        {
+            dat= dat+args[0]+','+args[1]+','+args[2];
+        }
+        else
+        {
+            return;
+        }
+        var replyMarkup= bot.inlineKeyboard([
+            [
+                bot.inlineButton('BUY', {callback:dat}),
+            ], [
+                bot.inlineButton('Cancelar', {callback: 'c'})
+            ]
+        ]);
+        var txt;
+        return bot.sendMessage(msg.from.id,"Apriete BUY para confirmar su orden",{replyMarkup});
+    }
+});
+
+
+/* 
+var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3]+"," +props.match[4];
+var replyMarkup= bot.inlineKeyboard([
+    [
+        bot.inlineButton('Confirmar', {callback:dat}),
+    ], [
+        bot.inlineButton('Cancelar', {callback: 'c'})
+    ]
+]);
+//console.log(msg);
+// /market [Lado] [Moneda1] [Moneda2] [Cantidad]
+return bot.sendMessage(msg.from.id,"Confirme su orden",{replyMarkup}); */
+
+
 bot.start();
 ////LOOP
 var user_iterator_t=0;
@@ -671,6 +707,43 @@ function notificationtxt(result)
     {
         txt= txt+ "¿status?";
     }
+    return txt;
+}
+
+function confirmtxt(type,side, symbol)
+{
+    var txt="Complete su orden ";
+    if(type=="LIMIT" ||type=="l")
+    {
+        txt+= "limit ";
+    }
+    else if(type=="MARKET"||type=="m")
+    {
+        txt+= "market ";
+    }
+    else if(type=="STOP_LOSS_LIMIT"||type=="s")
+    {
+        txt+= "stoplimit ";
+    }
+    else
+    {
+        txt+="¿tipo? ";
+    }
+
+    if (side=="BUY")
+    {
+        txt+="de comprar ";
+    }
+    else if(side=="SELL")
+    {
+        txt+="de vender ";
+    }
+    else
+    {
+        txt+="¿lado? ";
+    }
+    txt= txt+symbol + " ";
+    txt= txt+"ingresando las cantidades correspondientes";
 
     return txt;
 
