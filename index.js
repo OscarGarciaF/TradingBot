@@ -148,7 +148,7 @@ bot.on(/^\/precio ([^ ]+) ([^ ]+)$/, async function(msg,props)
 bot.on(/^\/market$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
+bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
     console.log("here");
     var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3];
@@ -161,7 +161,7 @@ bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
 bot.on(/^\/limit$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => function(msg,props)
+bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
     var dat= "l," +props.match[1] +","+ props.match[2] +","+props.match[3];
     cmdt=dat;
@@ -174,7 +174,7 @@ bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/, (msg) => function(msg,props)
 bot.on(/^\/stoplimit$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
-bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
+bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
     var dat= "s," +props.match[1] +","+ props.match[2] +","+props.match[3];
     cmdt=dat;
