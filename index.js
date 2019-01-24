@@ -314,6 +314,8 @@ bot.on('callbackQuery', async function(msg) {
 
 bot.on('text', (msg) => function(msg)
 {
+    console.log("here");
+    console.log(cmdt);
     if (cmdt!=undefined)
     {
         var args =msg.text.split(/ +/);        
