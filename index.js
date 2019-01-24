@@ -610,9 +610,6 @@ client.on('message', async function (message)
 
 client.login(discorddb.get('token').value());
 
-
-
-
 ////FUNCS
 function chkerr(err)
 {
