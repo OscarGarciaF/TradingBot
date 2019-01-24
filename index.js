@@ -312,7 +312,7 @@ bot.on('callbackQuery', async function(msg) {
     return bot.answerCallbackQuery(msg.id, {text:txt, showAlert: false});
 });
 
-bot.on('text', (msg) => function(msg)
+bot.on('text', function(msg)
 {
     console.log("here");
     console.log(cmdt);
