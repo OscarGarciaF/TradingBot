@@ -147,24 +147,33 @@ bot.on(/^\/precio ([^ ]+) ([^ ]+)$/, async function(msg,props)
     }
     return msg.reply.text(txt);
 });
-
+//irueta
+//msg.from.username;
 bot.on(/^\/market$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
     var txt;
-    if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+    if(msg.from.username=="irueta"||msg.from.username=="OscarGarciaF")
     {
-        var dat= "m," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
-        cmdt=dat;
-        txt= confirmtxt("m",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+        if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+        {
+            var dat= "m," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
+            cmdt=dat;
+            txt= confirmtxt("m",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+        }
+        else
+        {
+            txt=errortxt;
+        }
+        msg.reply.text(txt);
     }
     else
     {
-        txt=errortxt;
+        
     }
-    msg.reply.text(txt);
+
 });
 
 bot.on(/^\/limit$/, (msg) => msg.reply.text(errortxt));
@@ -173,17 +182,25 @@ bot.on(/^\/limit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
     var txt;
-    if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+    if(msg.from.username=="irueta"||msg.from.username=="OscarGarciaF")
     {
-        var dat= "l," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
-        cmdt=dat;
-        txt= confirmtxt("l",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+        if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+        {
+            var dat= "l," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
+            cmdt=dat;
+            txt= confirmtxt("l",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+        }
+        else
+        {
+            txt=errortxt;
+        }
+        msg.reply.text(txt);
     }
     else
     {
-        txt=errortxt;
+
     }
-    msg.reply.text(txt);
+
     
 });
 
@@ -194,17 +211,24 @@ bot.on(/^\/stoplimit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
     var txt;
-    if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+    if(msg.from.username=="irueta"||msg.from.username=="OscarGarciaF")
     {
-        var dat= "s," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
-        cmdt=dat;
-        txt= confirmtxt("s",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+        if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+        {
+            var dat= "s," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
+            cmdt=dat;
+            txt= confirmtxt("s",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+        }
+        else
+        {
+            txt=errortxt;
+        }
+        msg.reply.text(txt);
     }
     else
     {
-        txt=errortxt;
+
     }
-    msg.reply.text(txt);
 });
 
 
