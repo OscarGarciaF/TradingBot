@@ -28,14 +28,17 @@ luego escriba el siguiente comando por seguridad de preferencia en mensaje PRIVA
 const preciotxt="Se despliega el precio promedio\r\nUse: /precio [Moneda1] [Moneda2]\r\n\
 Ejemplo: /precio ETH BTC";
 
-const markettxt="Use: /market [Lado] [Moneda1] [Moneda2] [Cantidad]\r\n\
-Ejemplo: /market BUY ETH BTC 0.05\r\nDespues confirme o cancele la orden con los botones";
+const markettxt="Use: /market [Lado] [Moneda1] [Moneda2]\r\n\
+Ejemplo: /market BUY ETH BTC\r\nDespues ingrese la cantidad a comprar o vender y confirme con el boton\r\n\
+Ejemplo: 0.05";
 
-const limittxt="Use: /limit [Lado] [Moneda1] [Moneda2] [Cantidad] [Precio]\r\n\
-Ejemplo: /limit BUY ETH BTC 0.05 0.033497\r\nDespues confirme o cancele la orden con los botones";
+const limittxt="Use: /limit [Lado] [Moneda1] [Moneda2]\r\n\
+Ejemplo: /limit BUY ETH BTC\r\nDespues ingrese [Cantidad] [Limit] en otro mensaje y confirme con el boton\r\n\
+Ejemplo: 0.05 0.03548 ";
 
-const stoplimittxt="Use: /stoplimit [Lado] [Moneda1] [Moneda2] [Cantidad] [Limit] [Stop]\r\n\
-Ejemplo: /stoplimit BUY ETH BTC 0.05 0.033497 0.02\r\nDespues confirme o cancele la orden con los botones";
+const stoplimittxt="Use: /stoplimit [Lado] [Moneda1] [Moneda2]\r\n\
+Ejemplo: /stoplimit BUY ETH BTC\r\nDespues ingrese [Cantidad] [Limit] [Stop] con el boton\r\n\
+Ejemplo: 0.05 0.03548 0.025";
 
 const errortxt="Error llamando comando";
 
