@@ -153,11 +153,17 @@ bot.on(/^\/market ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
-   // console.log("here");
-    var dat= "m," +props.match[1].toUpperCase() +","+ props.match[2] +","+props.match[3];
-    cmdt=dat;
-    var txt= confirmtxt("m",props.match[1],props.match[2]+props.match[3]);
-   // console.log(cmdt);
+    var txt;
+    if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+    {
+        var dat= "m," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
+        cmdt=dat;
+        txt= confirmtxt("m",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+    }
+    else
+    {
+        txt=errortxt;
+    }
     msg.reply.text(txt);
 });
 
@@ -166,9 +172,17 @@ bot.on(/^\/limit ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/limit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
-    var dat= "l," +props.match[1] +","+ props.match[2] +","+props.match[3];
-    cmdt=dat;
-    var txt= confirmtxt("l",props.match[1],props.match[2]+props.match[3]);
+    var txt;
+    if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+    {
+        var dat= "l," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
+        cmdt=dat;
+        txt= confirmtxt("l",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+    }
+    else
+    {
+        txt=errortxt;
+    }
     msg.reply.text(txt);
     
 });
@@ -179,9 +193,17 @@ bot.on(/^\/stoplimit ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 {
-    var dat= "s," +props.match[1] +","+ props.match[2] +","+props.match[3];
-    cmdt=dat;
-    var txt= confirmtxt("s",props.match[1],props.match[2]+props.match[3]);
+    var txt;
+    if(props.match[1].toUpperCase()=="BUY"||props.match[1].toUpperCase()=="SELL")
+    {
+        var dat= "s," +props.match[1].toUpperCase() +","+ props.match[2].toUpperCase() +","+props.match[3].toUpperCase();
+        cmdt=dat;
+        txt= confirmtxt("s",props.match[1].toUpperCase(),props.match[2].toUpperCase()+props.match[3].toUpperCase());
+    }
+    else
+    {
+        txt=errortxt;
+    }
     msg.reply.text(txt);
 });
 
@@ -317,8 +339,8 @@ bot.on('callbackQuery', async function(msg) {
 
 bot.on('text', function(msg)
 {
-    console.log("here");
-    console.log(cmdt);
+    //console.log("here");
+    //console.log(cmdt);
     if (cmdt!=undefined)
     {
         var args =msg.text.split(/ +/);        
@@ -467,6 +489,8 @@ setInterval(loopt, 333);
 
 
 ////DISCORD
+var cmdd=undefined;
+
 client.on('ready', () => {
     console.log('I am ready!');
   });
@@ -477,134 +501,189 @@ client.on('message', async function (message)
     //console.log(message);
     //message.author.send("here").catch(console.error);
     var prefix='/';
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
-    var args = message.content.slice(prefix.length).split(/ +/);
-    var command = args.shift().toLowerCase();
-    //console.log("Command: " +command+" args: " +args);
-    if (command=='ayuda')
+    if(message.author.bot)
     {
-        message.channel.send(ayudatxt).catch(console.error);
-
+        return;
     }
-    else if (command=='explica')
+    else if(!message.content.startsWith(prefix) )
     {
-        var txt;
-        //console.log(args);
-        if(args.length!=1)
+        if(cmdd==undefined)
         {
-            txt=errortxt;
-        }
-        else if (args[0]=='registro')
-        {
-            txt=registrotxt;
-        }
-        else if (args[0]=='precio')
-        {
-            txt=preciotxt;
-        }
-        else if (args[0]=='market')
-        {
-            txt=markettxt;
-        }
-        else if (args[0]=='limit')
-        {
-            txt=limittxt;
-        }
-        else if (args[0]=='stoplimit')
-        {
-            txt=stoplimittxt;
+            return;
         }
         else
         {
-            txt=errortxt;
-        }    
-        message.channel.send(txt).catch(console.error);
-    }
-
-
-    else if (command=='registro')
-    {
-
-        var txt;
-        if (args.length!=2)
-        {
-            txt=errortxt;
-        }
-        else
-        {
-            txt="Registro exitoso";
-            var user=message.author.id;
-            var public= args[0];
-            var private = args[1];
-            var member=dbd.get('data').find({ id: user });
-            //console.log(member.value());
-            //console.log(user);
-            if (member.value()==undefined)
+            var dat=cmdd;
+            var args =message.content.split(/ +/);        
+            for (i = 0; i < args.length; i++)
+            { 
+                if(isNaN(args[i]))
+                {
+                    return;
+                }
+            }
+            if (args.length>3)
             {
-                var obj={ id: user, publicKey: public, privateKey: private, orders:[]};
-                dbd.get("data").push(obj).write();
-                //console.log(obj);
+                return;
+            }
+            if(cmdd[0]=='MARKET'&&args.length==1)
+            {
+                dat[3]= args[0];
+            }
+            else if(cmdd[0]=='LIMIT'&&args.length==2)
+            {
+                dat[3]= args[0];
+                dat[4]= args[1];
+                
+            }
+            else if(cmdd[0]=='STOPLIMIT'&&args.length==3)
+            {
+                dat[3]= args[0];
+                dat[4]= args[1];
+                dat[5]= args[2];
             }
             else
-            {        
-                var obj={publicKey: public, privateKey: private};
-                member.assign(obj).write();
-                //console.log(obj);
-            }   
-        }       
-        message.channel.send(txt).catch(console.error);
-    }
-
-
-    else if (command=='precio')
-    {
-
-        var txt;
-        if (args.length!=2)
-        {
-            txt=errortxt;
+            {
+                return;
+            }
+            
         }
-        else
+    }
+    else
+    {
+        var args = message.content.slice(prefix.length).split(/ +/);
+        var command = args.shift().toLowerCase();
+        //console.log("Command: " +command+" args: " +args);
+        if (command=='ayuda')
         {
-            var client= Binance();
-            var s1=args[0].toUpperCase();
-            var s2=args[1].toUpperCase();
-            var dat= {symbol:s1+s2};
-            var result;
-            try
+            message.channel.send(ayudatxt).catch(console.error);
+    
+        }
+        else if (command=='explica')
+        {
+            var txt;
+            //console.log(args);
+            if(args.length!=1)
             {
-                result= await client.avgPrice(dat);
-                txt= "1 "+ s1+ " cuesta "+ result.price+ " "+ s2;
-                //console.log(result);
+                txt=errortxt;
             }
-            catch(err)
+            else if (args[0]=='registro')
             {
-                //console.log(result);
-                txt=chkerr(err);
+                txt=registrotxt;
             }
+            else if (args[0]=='precio')
+            {
+                txt=preciotxt;
+            }
+            else if (args[0]=='market')
+            {
+                txt=markettxt;
+            }
+            else if (args[0]=='limit')
+            {
+                txt=limittxt;
+            }
+            else if (args[0]=='stoplimit')
+            {
+                txt=stoplimittxt;
+            }
+            else
+            {
+                txt=errortxt;
+            }    
             message.channel.send(txt).catch(console.error);
         }
-    }
-
-
-    else if (command=='market')
-    {
-        
-    }
-
-
-    else if (command=='limit')
-    {
-        
-    }
-
-
-    else if (command=='stoplimit')
-    {
-        
-    }   
     
     
+        else if (command=='registro')
+        {
+    
+            var txt;
+            if (args.length!=2)
+            {
+                txt=errortxt;
+            }
+            else
+            {
+                txt="Registro exitoso";
+                var user=message.author.id;
+                var public= args[0];
+                var private = args[1];
+                var member=dbd.get('data').find({ id: user });
+                //console.log(member.value());
+                //console.log(user);
+                if (member.value()==undefined)
+                {
+                    var obj={ id: user, publicKey: public, privateKey: private, orders:[]};
+                    dbd.get("data").push(obj).write();
+                    //console.log(obj);
+                }
+                else
+                {        
+                    var obj={publicKey: public, privateKey: private};
+                    member.assign(obj).write();
+                    //console.log(obj);
+                }   
+            }       
+            message.channel.send(txt).catch(console.error);
+        }
+    
+    
+        else if (command=='precio')
+        {
+    
+            var txt;
+            if (args.length!=2)
+            {
+                txt=errortxt;
+            }
+            else
+            {
+                var client= Binance();
+                var s1=args[0].toUpperCase();
+                var s2=args[1].toUpperCase();
+                var dat= {symbol:s1+s2};
+                var result;
+                try
+                {
+                    result= await client.avgPrice(dat);
+                    txt= "1 "+ s1+ " cuesta "+ result.price+ " "+ s2;
+                    //console.log(result);
+                }
+                catch(err)
+                {
+                    //console.log(result);
+                    txt=chkerr(err);
+                }
+                message.channel.send(txt).catch(console.error);
+            }
+        }
+        else if (command=='market'||command=='limit'||command=='stoplimit')
+        {
+            var txt;
+            if(args[0].toUpperCase()=="BUY"||args[0].toUpperCase()=="SELL")
+            {
+                if(args.length==3)
+                {
+                    args=args.toUpperCase();
+                    cmdd=[command.toUpperCase(),args[0],args[1]+args[2]];
+                    txt= confirmtxt(command.toUpperCase(),args[0],args[1],args[2]);
+                }
+                else
+                {
+                    txt=errortxt;
+                }            
+            }
+            else
+            {
+                txt=errortxt;
+            }        
+            
+            message.channel.send(txt).catch(console.error);
+        } 
+        
+    }
+   
 });
 
 
