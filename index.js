@@ -153,6 +153,8 @@ bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
     var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3];
     cmdt=dat;
     var txt= confirmtxt("m",props.match[1],props.match[2]+props.match[3]);
+    console.log("here");
+    console.log(cmdt);
     msg.reply.text(txt);
 });
 
@@ -351,7 +353,7 @@ bot.on('text', (msg) => function(msg)
             ]
         ]);
         var txt;
-        return bot.sendMessage(msg.from.id,"Apriete BUY para confirmar su orden",{replyMarkup});
+        return bot.sendMessage(msg.from.id,"Apriete el boton BUY para confirmar su orden",{replyMarkup});
     }
 });
 
