@@ -150,10 +150,10 @@ bot.on(/^\/market ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+)$/, (msg) => msg.reply.text(errortxt));
 bot.on(/^\/market ([^ ]+) ([^ ]+) ([^ ]+)$/,  (msg) => function(msg,props)
 {
+    console.log("here");
     var dat= "m," +props.match[1] +","+ props.match[2] +","+props.match[3];
     cmdt=dat;
     var txt= confirmtxt("m",props.match[1],props.match[2]+props.match[3]);
-    console.log("here");
     console.log(cmdt);
     msg.reply.text(txt);
 });
