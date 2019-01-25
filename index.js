@@ -361,7 +361,7 @@ bot.on('callbackQuery', async function(msg) {
     return bot.answerCallbackQuery(msg.id, {text:txt, showAlert: false});
 });
 
-bot.on(/([.]+)$/, function(msg)
+bot.on(/([0-9. ]+)$/, function(msg)
 {
     console.log("here");
     //console.log(cmdt);
