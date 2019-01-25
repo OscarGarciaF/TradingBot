@@ -231,6 +231,52 @@ bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
     }
 });
 
+bot.on(/^([0-9. ]+)$/, function(msg)
+{
+    console.log("here");
+    //console.log(cmdt);
+    if (cmdt!=undefined)
+    {
+        var args =msg.text.split(/ +/);        
+        for (i = 0; i < args.length; i++)
+        { 
+            if(isNaN(args[i]))
+            {
+                return;
+            }
+        }
+        if (args.length>3)
+        {
+            return;
+        }
+        dat= cmdt+",";
+        if(cmdt[0]=='m'&&args.length==1)
+        {
+            dat= dat+args[0];
+        }
+        else if(cmdt[0]=='l'&&args.length==2)
+        {
+            dat= dat+args[0]+','+args[1];
+        }
+        else if(cmdt[0]=='s'&&args.length==3)
+        {
+            dat= dat+args[0]+','+args[1]+','+args[2];
+        }
+        else
+        {
+            return;
+        }
+        var replyMarkup= bot.inlineKeyboard([
+            [
+                bot.inlineButton('BUY', {callback:dat}),
+            ], [
+                bot.inlineButton('Cancelar', {callback: 'c'})
+            ]
+        ]);
+        var txt;
+        return bot.sendMessage(msg.from.id,"Apriete el boton BUY para confirmar su orden",{replyMarkup});
+    }
+});
 
 bot.on('callbackQuery', async function(msg) {
     console.log(msg);
@@ -361,52 +407,7 @@ bot.on('callbackQuery', async function(msg) {
     return bot.answerCallbackQuery(msg.id, {text:txt, showAlert: false});
 });
 
-bot.on(/^([0-9. ]+)$/, function(msg)
-{
-    console.log("here");
-    //console.log(cmdt);
-    if (cmdt!=undefined)
-    {
-        var args =msg.text.split(/ +/);        
-        for (i = 0; i < args.length; i++)
-        { 
-            if(isNaN(args[i]))
-            {
-                return;
-            }
-        }
-        if (args.length>3)
-        {
-            return;
-        }
-        dat= cmdt+",";
-        if(cmdt[0]=='m'&&args.length==1)
-        {
-            dat= dat+args[0];
-        }
-        else if(cmdt[0]=='l'&&args.length==2)
-        {
-            dat= dat+args[0]+','+args[1];
-        }
-        else if(cmdt[0]=='s'&&args.length==3)
-        {
-            dat= dat+args[0]+','+args[1]+','+args[2];
-        }
-        else
-        {
-            return;
-        }
-        var replyMarkup= bot.inlineKeyboard([
-            [
-                bot.inlineButton('BUY', {callback:dat}),
-            ], [
-                bot.inlineButton('Cancelar', {callback: 'c'})
-            ]
-        ]);
-        var txt;
-        return bot.sendMessage(msg.from.id,"Apriete el boton BUY para confirmar su orden",{replyMarkup});
-    }
-});
+
 
 
 /* 
