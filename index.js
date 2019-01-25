@@ -538,7 +538,7 @@ client.on('message', async function (message)
         else
         {
             var dat=cmdd;
-            console.log(message);
+            //console.log(message);
             var args =message.content.split(/ +/);        
             for (i = 0; i < args.length; i++)
             { 
@@ -572,7 +572,8 @@ client.on('message', async function (message)
                 return;
             }
             //👍
-            message.channel.send("@"+message.author.username+", Confirma tu orden reaccionando con 👍 en tu mensaje dentro del proximo minuto").catch(console.error);
+            var txt="@"+message.author.username+"#"+message.author.discriminator+", Confirma tu orden reaccionando con 👍 en tu mensaje dentro del proximo minuto";
+            message.channel.send(txt).catch(console.error);
             const filter = (reaction, user) => {
                 return reaction.emoji.name === '👍' && user.id === message.author.id;
             };
