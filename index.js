@@ -233,8 +233,8 @@ bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 ///^([0-9. ]+)$/
 bot.on('text', function(msg)
 {
-    console.log("here");
-    console.log(msg);
+    //console.log("here");
+    //console.log(msg);
     if (cmdt!=undefined)
     {
         var args =msg.text.split(/ +/);        
