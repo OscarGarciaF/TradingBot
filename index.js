@@ -689,9 +689,9 @@ client.on('message', async function (message)
             {
                 if(args.length==3)
                 {
-                    args=args.toUpperCase();
-                    cmdd=[command.toUpperCase(),args[0],args[1]+args[2]];
-                    txt= confirmtxt(command.toUpperCase(),args[0],args[1],args[2]);
+                    
+                    cmdd=[command.toUpperCase(),args[0].toUpperCase(),args[1].toUpperCase()+args[2].toUpperCase()];
+                    txt= confirmtxt(command.toUpperCase(),args[0].toUpperCase(),args[1].toUpperCase(),args[2].toUpperCase());
                     console.log(cmdd);
                 }
                 else
