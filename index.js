@@ -572,13 +572,13 @@ client.on('message', async function (message)
                 return;
             }
             //👍
-            var txt="@"+message.author.username+"#"+message.author.discriminator+", Confirma tu orden reaccionando con 👍 en tu mensaje dentro del proximo minuto";
+            var txt="@"+message.author.id+", Confirma tu orden reaccionando con 👍 en tu mensaje dentro del proximo minuto";
             message.channel.send(txt).catch(console.error);
             const filter = (reaction, user) => {
                 return reaction.emoji.name === '👍' && user.id === message.author.id;
             };
             
-            const collector = message.createReactionCollector(filter, {maxMatches: 1, time: 10000 });
+            const collector = message.createReactionCollector(filter, {maxMatches: 1, time: 60000 });
             
             collector.on('collect', (reaction, reactionCollector) => {
                 console.log(`Collected ${reaction.emoji.name}`);
@@ -711,7 +711,7 @@ client.on('message', async function (message)
                     
                     cmdd=[command.toUpperCase(),args[0].toUpperCase(),args[1].toUpperCase()+args[2].toUpperCase()];
                     txt= confirmtxt(command.toUpperCase(),args[0].toUpperCase(),args[1].toUpperCase()+args[2].toUpperCase());
-                    console.log(cmdd);
+                    //console.log(cmdd);
                 }
                 else
                 {
