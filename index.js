@@ -361,9 +361,9 @@ bot.on('callbackQuery', async function(msg) {
     return bot.answerCallbackQuery(msg.id, {text:txt, showAlert: false});
 });
 
-bot.on('text', function(msg)
+bot.on(/\.+$/, function(msg)
 {
-    //console.log("here");
+    console.log("here");
     //console.log(cmdt);
     if (cmdt!=undefined)
     {
