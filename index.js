@@ -230,11 +230,11 @@ bot.on(/^\/stoplimit ([^ ]+) ([^ ]+) ([^ ]+)$/,  function(msg,props)
 
     }
 });
-
-bot.on(/^([0-9. ]+)$/, function(msg)
+///^([0-9. ]+)$/
+bot.on('text', function(msg)
 {
     console.log("here");
-    //console.log(cmdt);
+    console.log(msg);
     if (cmdt!=undefined)
     {
         var args =msg.text.split(/ +/);        
