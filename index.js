@@ -572,7 +572,7 @@ client.on('message', async function (message)
                 return;
             }
             //👍
-            var txt="<@"+message.author.id+">, Confirma tu orden reaccionando con 👍 en tu mensaje dentro del proximo minuto";
+            var txt="<@"+message.author.id+">, Confirma tu orden reaccionando con 👍 tu mensaje dentro del proximo minuto";
             message.channel.send(txt).catch(console.error);
             const filter = (reaction, user) => {
                 return reaction.emoji.name === '👍' && user.id === message.author.id;
