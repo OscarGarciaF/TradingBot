@@ -578,7 +578,7 @@ client.on('message', async function (message)
                 return reaction.emoji.name === '👍' && user.id === message.author.id;
             };
             
-            const collector = message.createReactionCollector(filter, {maxMatches: 1, time: 60000 });
+            const collector = message.createReactionCollector(filter, {max: 1, time: 60000 });
             
             collector.on('collect', (reaction, reactionCollector) => {
                 console.log(`Collected ${reaction.emoji.name}`);
