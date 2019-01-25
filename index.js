@@ -538,6 +538,7 @@ client.on('message', async function (message)
         else
         {
             var dat=cmdd;
+            console.log(message);
             var args =message.content.split(/ +/);        
             for (i = 0; i < args.length; i++)
             { 
@@ -570,6 +571,23 @@ client.on('message', async function (message)
             {
                 return;
             }
+            //👍
+            message.channel.send("Confirma tu orden reaccionando con 👍 en tu mensaje dentro del proximo minuto").catch(console.error);
+            const filter = (reaction, user) => {
+                return reaction.emoji.name === '👍' && user.id === message.author.id;
+            };
+            
+            const collector = message.createReactionCollector(filter, {maxMatches: 1, time: 10000 });
+            
+            collector.on('collect', (reaction, reactionCollector) => {
+                console.log(`Collected ${reaction.emoji.name}`);
+            });
+            
+            collector.on('end', collected => {
+                console.log(`Collected ${collected.size} items`);
+            });
+            
+
             
         }
     }
