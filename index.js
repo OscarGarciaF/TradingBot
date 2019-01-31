@@ -581,121 +581,121 @@ client.on('message', async function (message)
             
             const collector = message.createReactionCollector(filter, {max:1,time: 60000 });
 
-            collector.on('collect', (reaction, reactionCollector) => 
+            collector.on('collect',async function(reaction, reactionCollector)
             {
-            // console.log(`Collected ${reaction.emoji.name}`);
-            var data = dat
-            var txt="Error";
-            //console.log(data);
-            var option;
-            var sym;
-            var cant;
-            var typ;
-            var user=message.author.id;
-            var member=dbt.get('data').find({ id: user });
-            if (member.value()==undefined)
-            {
-                txt= "No esta registrado, use /registro";
-            }
-            else
-            {        
-                var client =Binance({apiKey: member.value().publicKey,
-                apiSecret: member.value().privateKey});
-                //option= props.match[1].toUpperCase();
-                
-                if(data[0]=="MARKET")
+                // console.log(`Collected ${reaction.emoji.name}`);
+                var data = dat
+                var txt="Error";
+                //console.log(data);
+                var option;
+                var sym;
+                var cant;
+                var typ;
+                var user=message.author.id;
+                var member=dbt.get('data').find({ id: user });
+                if (member.value()==undefined)
                 {
-                    typ="MARKET";
-                }
-                else if (data[0]=="LIMIT")
-                {
-                    typ="LIMIT";
-                }
-                else if (data[0]=="STOPLIMIT")
-                {
-                    typ="STOP_LOSS_LIMIT";
+                    txt= "No esta registrado, use /registro";
                 }
                 else
-                {
-                    console.log("type error")
+                {        
+                    var client =Binance({apiKey: member.value().publicKey,
+                    apiSecret: member.value().privateKey});
+                    //option= props.match[1].toUpperCase();
                     
-                    message.channel.send(txt).catch(console.error);
-                }
-                option=data[1].toUpperCase();
-                if (option=="BUY"||option=="SELL")
-                {
-                    sym=data[2].toUpperCase() + data[3].toUpperCase();
-                    cant=data[4];
-                    if(isNaN(cant))
+                    if(data[0]=="MARKET")
                     {
-                        txt= "Escriba un numero valido";
+                        typ="MARKET";
+                    }
+                    else if (data[0]=="LIMIT")
+                    {
+                        typ="LIMIT";
+                    }
+                    else if (data[0]=="STOPLIMIT")
+                    {
+                        typ="STOP_LOSS_LIMIT";
                     }
                     else
                     {
-                        var obj=  {
-                            symbol: sym,
-                            side: option,
-                            quantity: cant,
-                            type: typ
-                            }; 
-                        var result;
-    
-                        if(typ=="LIMIT"||typ=="STOP_LOSS_LIMIT")
+                        console.log("type error")
+                        
+                        message.channel.send(txt).catch(console.error);
+                    }
+                    option=data[1].toUpperCase();
+                    if (option=="BUY"||option=="SELL")
+                    {
+                        sym=data[2].toUpperCase() + data[3].toUpperCase();
+                        cant=data[4];
+                        if(isNaN(cant))
                         {
-                            var prc;
-                            obj.timeInForce="GTC";
-                            prc=data[5];
-                            if(isNaN(prc))
-                            {
-                                txt= "Escriba un numero valido";
-                                message.channel.send(txt).catch(console.error);
-                            }
-                            else
-                            {
-                                obj.price=prc;
-                                if(typ=="STOP_LOSS_LIMIT")  
-                                {
-                                    var stop=data[6];
-                                    if(isNaN(stop))
-                                    {
-                                        txt= "Escriba un numero valido";  
-                                        message.channel.send(txt).catch(console.error);
-                                    }
-                                    else
-                                    {
-                                        obj.stopPrice=stop;
-                                    }                                
-                                }
-                            }
-    
+                            txt= "Escriba un numero valido";
                         }
-                        console.log(obj);
-                        try
-                        {                 
-                            result = await client.order(obj);                           
-                            console.log(result);
-                            txt="Operación exitosa";  
+                        else
+                        {
+                            var obj=  {
+                                symbol: sym,
+                                side: option,
+                                quantity: cant,
+                                type: typ
+                                }; 
+                            var result;
+        
                             if(typ=="LIMIT"||typ=="STOP_LOSS_LIMIT")
                             {
-                                //console.log(member.get("orders").value());
-                                member.get("orders").push({symbol: result.symbol,orderId:result.orderId}).write();                       
-                                //console.log(member);
-                            }                    
-                        }
-                        catch(err)
-                        {
-                            txt=chkerr(err);                        
+                                var prc;
+                                obj.timeInForce="GTC";
+                                prc=data[5];
+                                if(isNaN(prc))
+                                {
+                                    txt= "Escriba un numero valido";
+                                    message.channel.send(txt).catch(console.error);
+                                }
+                                else
+                                {
+                                    obj.price=prc;
+                                    if(typ=="STOP_LOSS_LIMIT")  
+                                    {
+                                        var stop=data[6];
+                                        if(isNaN(stop))
+                                        {
+                                            txt= "Escriba un numero valido";  
+                                            message.channel.send(txt).catch(console.error);
+                                        }
+                                        else
+                                        {
+                                            obj.stopPrice=stop;
+                                        }                                
+                                    }
+                                }
+        
+                            }
+                            console.log(obj);
+                            try
+                            {                 
+                                result = await client.order(obj);                           
+                                console.log(result);
+                                txt="Operación exitosa";  
+                                if(typ=="LIMIT"||typ=="STOP_LOSS_LIMIT")
+                                {
+                                    //console.log(member.get("orders").value());
+                                    member.get("orders").push({symbol: result.symbol,orderId:result.orderId}).write();                       
+                                    //console.log(member);
+                                }                    
+                            }
+                            catch(err)
+                            {
+                                txt=chkerr(err);                        
+                            }
                         }
                     }
-                }
-                else
-                {
-                    txt= "Error en el lado de la compra, use buy o sell";
-                }
-        
-            } 
-            //console.log("after edit");
-            message.channel.send(txt).catch(console.error);
+                    else
+                    {
+                        txt= "Error en el lado de la compra, use buy o sell";
+                    }
+            
+                } 
+                //console.log("after edit");
+                message.channel.send(txt).catch(console.error);
             });
 
 
