@@ -592,7 +592,7 @@ client.on('message', async function (message)
                 var cant;
                 var typ;
                 var user=message.author.id;
-                var member=dbt.get('data').find({ id: user });
+                var member=dbd.get('data').find({ id: user });
                 if (member.value()==undefined)
                 {
                     txt= "No esta registrado, use /registro";
