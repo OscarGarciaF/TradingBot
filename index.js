@@ -900,7 +900,7 @@ async function loopd()
                 if(result.status=="FILLED"||result.status=="CANCELED"||result.status=="REJECTED"||result.status=="EXPIRED")
                 {
                     var path='data['+user_iterator_d+'].orders';
-                    dbt.get(path).remove({ symbol: sym, orderId: orid}).write();
+                    dbd.get(path).remove({ symbol: sym, orderId: orid}).write();
                     var txt=notificationtxt(result);                    
                     var fetch=  await client.fetchUser(data.id);
                     fetch.send(txt).catch(console.error);
