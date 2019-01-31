@@ -429,10 +429,6 @@ bot.start();
 var user_iterator_t=0;
 var order_iterator_t=0;
 
-var user_iterator_d=0;
-var order_iterator_d=0;
-
-
 async function loopt()
 {
     //var start = process.hrtime();
@@ -847,6 +843,90 @@ client.on('message', async function (message)
 
 
 client.login(discorddb.get('token').value());
+
+var user_iterator_d=0;
+var order_iterator_d=0;
+
+async function loopd()
+{
+    //var start = process.hrtime();
+    var data=dbd.get('data['+user_iterator_d+']').value();
+    var user;
+    var orders;
+    var chatid;    
+    //console.log(data);
+    if(data==undefined)
+    {
+        user_iterator_d=0;
+    }
+    else
+    {
+        user=data.id;
+        chatid=data.chat;
+        orders= data.orders;        
+        if(orders.length==0)
+        {
+            user_iterator_d++;
+            order_iterator_d=0;
+            //console.log("no orders");
+            //no orders
+        }
+        else
+        {
+            //console.log(orders[order_iterator_t]);
+            
+            if(orders[order_iterator_d]==undefined)
+            {
+                user_iterator_d++;
+                order_iterator_d=0;
+                //console.log("order undefined");
+                //order undefined
+            }
+            else
+            {
+                //console.log("After checks");
+                //console.log(orders.length);
+                //console.log(orders[order_iterator_t]);
+                //bot.sendMessage(chatid,"Checando orden");
+                var binance =Binance({apiKey: data.publicKey,
+                apiSecret: data.privateKey});
+                var sym=orders[order_iterator_d].symbol;
+                var orid=orders[order_iterator_d].orderId;
+                var result=await binance.getOrder({
+                    symbol:sym ,
+                    orderId: orid,
+                  });
+                  //console.log(result);
+                if(result.status=="FILLED"||result.status=="CANCELED"||result.status=="REJECTED"||result.status=="EXPIRED")
+                {
+                    var path='data['+user_iterator_d+'].orders';
+                    dbt.get(path).remove({ symbol: sym, orderId: orid}).write();
+                    var txt=notificationtxt(result);
+                    client.fetchUser(data.id).send(txt).catch(console.error);
+                }
+                else
+                {
+                    order_iterator_d++;
+                }
+                //console.log("before remove");
+                //console.log("user:" +user_iterator_t+ " order: "+ order_iterator_t);
+                //console.log(path);
+                //console.log(dbt.get(path).value());
+                //console.log(result);
+                //console.log("End loop");
+                //var precision = 3; // 3 decimal places
+                //var elapsed = process.hrtime(start)[1] / 1000000; // divide by a million to get nano to milli
+                //console.log(process.hrtime(start)[0] + " s, " + elapsed.toFixed(precision) + " ms"); // print message + time
+            }
+        }
+        
+    }
+        
+}
+
+setInterval(loopd, 333);
+
+
 
 ////FUNCS
 function chkerr(err)
