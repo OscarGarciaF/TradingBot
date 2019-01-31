@@ -329,8 +329,8 @@ bot.on('callbackQuery', async function(msg) {
             option=data[1].toUpperCase();
             if (option=="BUY"||option=="SELL")
             {
-                sym=data[2].toUpperCase() + data[3].toUpperCase();
-                cant=data[4];
+                sym=data[2].toUpperCase();
+                cant=data[3];
                 if(isNaN(cant))
                 {
                     txt= "Escriba un numero valido";
@@ -349,7 +349,7 @@ bot.on('callbackQuery', async function(msg) {
                     {
                         var prc;
                         obj.timeInForce="GTC";
-                        prc=data[5];
+                        prc=data[4];
                         if(isNaN(prc))
                         {
                             txt= "Escriba un numero valido";
@@ -361,7 +361,7 @@ bot.on('callbackQuery', async function(msg) {
                             obj.price=prc;
                             if(typ=="STOP_LOSS_LIMIT")  
                             {
-                                var stop=data[6];
+                                var stop=data[5];
                                 if(isNaN(stop))
                                 {
                                     txt= "Escriba un numero valido";
