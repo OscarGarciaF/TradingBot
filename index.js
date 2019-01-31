@@ -862,7 +862,7 @@ async function loopd()
     else
     {
         user=data.id;
-        chatid=data.chat;
+        //chatid=data.chat;
         orders= data.orders;        
         if(orders.length==0)
         {
@@ -901,8 +901,9 @@ async function loopd()
                 {
                     var path='data['+user_iterator_d+'].orders';
                     dbt.get(path).remove({ symbol: sym, orderId: orid}).write();
-                    var txt=notificationtxt(result);
-                    client.fetchUser(data.id).send(txt).catch(console.error);
+                    var txt=notificationtxt(result);                    
+                    var fetch=  await client.fetchUser(data.id);
+                    fetch.send(txt).catch(console.error);
                 }
                 else
                 {
